@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { playPause, } from "../store";
 import { RootState } from '../store';
 
-const PlayPause = () => {
+/* const PlayPause = () => {
     const dispatch = useDispatch();
     const isPlaying = useSelector((state: RootState) => state.game.playing);
 
@@ -19,3 +19,4 @@ const PlayPause = () => {
 };
 
 export default PlayPause;
+ */

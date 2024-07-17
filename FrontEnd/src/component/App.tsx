@@ -1,18 +1,17 @@
 
-import '../css/App.css'
 import Features from './Features';
+import Footer from './Footer';
 import NavBar from './NavBar';
-import PlayPause from './PlayPause';
+/* import PlayPause from './PlayPause'; */
 
 function App() {
 
-  console.log('s');
-
   return (
     <>
-      <PlayPause />
+      {/*   <PlayPause /> */}
       <NavBar />
       <Features />
+      <Footer />
     </>
   )
 }

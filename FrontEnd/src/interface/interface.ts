@@ -1,8 +1,4 @@
-export default interface GameState {
-    player1: number;
-    player2: number;
-    advantage: string | null;
-    winner: string | null;
-    playing: boolean;
-    restart: boolean;
+export default interface AuthState {
+    token: string | null;
+    user: unknown | null;
 }
