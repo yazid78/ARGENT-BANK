@@ -3,11 +3,13 @@ import { configureStore, createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface AuthState {
     token: string | null;
     error: string | null;
+    firstName: string | null;
 }
 
 const initialState: AuthState = {
     token: null,
     error: null,
+    firstName: null,
 };
 
 const authSlice = createSlice({
@@ -16,16 +18,19 @@ const authSlice = createSlice({
     reducers: {
         setToken: (state, action: PayloadAction<string>) => {
             state.token = action.payload;
-            state.error = null; // Réinitialiser l'erreur en cas de réussite
+            state.error = null;
         },
         setError: (state, action: PayloadAction<string>) => {
             state.error = action.payload;
-            state.token = null; // Réinitialiser le token en cas d'erreur
+            state.token = null;
+        },
+        setFirstName: (state, action: PayloadAction<string | null>) => {
+            state.firstName = action.payload;
         },
     },
 });
 
-export const { setToken, setError } = authSlice.actions;
+export const { setToken, setError, setFirstName } = authSlice.actions;
 export const authReducer = authSlice.reducer;
 
 const store = configureStore({

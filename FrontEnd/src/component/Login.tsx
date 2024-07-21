@@ -4,7 +4,7 @@ import { login } from '../authActions';
 import { AppDispatch } from '../store';
 import { useNavigate } from 'react-router-dom';
 
-const SignUp: React.FC = () => {
+const Login: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -52,10 +52,9 @@ const SignUp: React.FC = () => {
                 </section>
             </main>
             <footer className="footer">
-                {/* Contenu du pied de page */}
             </footer>
         </div>
     );
 };
 
-export default SignUp;
+export default Login;

@@ -1,40 +1,22 @@
-/* import React, { useEffect } from 'react';
-
-import { useSelector } from 'react-redux';
-import axios from 'axios';
-import { RootState } from '../store'; */
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, Navigate } from 'react-router-dom';
+import { logOut } from '../authActions';
+import { AppDispatch, RootState } from '../store';
 import argentBankLogo from '../assets/argentBankLogo.png';
 import 'font-awesome/css/font-awesome.min.css';
-import { Link } from 'react-router-dom';
 
 const User: React.FC = () => {
-    /* const token = useSelector((state: RootState) => state.auth.token);
-    const navigate = useNavigate();
+    const dispatch = useDispatch<AppDispatch>();
+    const token = useSelector((state: RootState) => state.auth.token);
 
-    useEffect(() => {
-        const fetchProfile = async () => {
-            try {
-                const response = await axios.post(
-                    'http://localhost:3001/api/v1/profile',
-                    {},
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    }
-                );
-                console.log('User profile:', response.data);
-            } catch (error) {
-                console.error('Error fetching profile:', error);
-            }
-        };
+    if (!token) {
+        return <Navigate to="/" />;
+    }
 
-        if (!token) {
-            navigate('/sign-in');
-        } else {
-            fetchProfile();
-        }
-    }, [token, navigate]); */
+    const handleSignOut = () => {
+        dispatch(logOut());
+    };
 
     return (
         <div>
@@ -52,7 +34,7 @@ const User: React.FC = () => {
                         <i className="fa fa-user-circle"></i>
                         Tony
                     </Link>
-                    <Link className="main-nav-item" to="/">
+                    <Link onClick={handleSignOut} className="main-nav-item" to="/">
                         <i className="fa fa-sign-out"></i>
                         Sign Out
                     </Link>

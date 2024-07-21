@@ -7,9 +7,6 @@ export const login = (email: string, password: string) => async (dispatch: AppDi
         const response = await axios.post('http://localhost:3001/api/v1/user/login', { email, password });
         const { token } = response.data.body;
         dispatch(setToken(token));
-        // Stockage du token dans le local storage ou sessionStorage si nécessaire
-        localStorage.setItem('token', token);
-        // Redirection vers la page de profil ou autre page après la connexion réussie
         console.log('Token:', token);
 
     } catch (error) {
@@ -18,3 +15,14 @@ export const login = (email: string, password: string) => async (dispatch: AppDi
         throw error;
     }
 };
+
+/* export const userName = ()=> async(dispatch: AppDispatch)=>{
+    
+} */
+
+export const logOut = () => async (dispatch: AppDispatch) => {
+    dispatch(setToken(''))
+    console.log('disconnection');
+
+
+}
