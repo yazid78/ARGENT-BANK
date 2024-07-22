@@ -1,20 +1,23 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../authActions';
 import { AppDispatch } from '../store';
 import { useNavigate } from 'react-router-dom';
+import { RootState } from '@reduxjs/toolkit/query';
 
 const Login: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const error = useSelector((state: RootState) => state.auth.error);
+
     const navigate = useNavigate();
 
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
             await dispatch(login(email, password));
-            navigate('/user'); // Redirection après la connexion réussie
+            navigate('/user');
         } catch (error) {
             console.error('Error logging in:', error);
         }
@@ -47,6 +50,8 @@ const Login: React.FC = () => {
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </div>
+                        {error && <div className="error-message">{error}</div>}
+
                         <button type="submit" className="sign-in-button">Sign In</button>
                     </form>
                 </section>

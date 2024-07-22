@@ -69,7 +69,9 @@ body {
   max-width: 100%;
   width: 200px;
 }
-
+.error-message {
+  color: red;
+}
 .hero {
   background-image: url("../assets/bank-tree.jpeg");
   background-position: 0 -50px;

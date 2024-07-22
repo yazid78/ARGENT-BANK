@@ -4,12 +4,14 @@ interface AuthState {
     token: string | null;
     error: string | null;
     firstName: string | null;
+    lastName: string | null;
 }
 
 const initialState: AuthState = {
     token: null,
     error: null,
     firstName: null,
+    lastName: null,
 };
 
 const authSlice = createSlice({
@@ -24,13 +26,15 @@ const authSlice = createSlice({
             state.error = action.payload;
             state.token = null;
         },
-        setFirstName: (state, action: PayloadAction<string | null>) => {
-            state.firstName = action.payload;
+        //setperson creer un objet
+        setPerson: (state, action: PayloadAction<{ firstName: string, lastName: string }>) => {
+            state.firstName = action.payload.firstName;
+            state.lastName = action.payload.lastName;
         },
     },
 });
 
-export const { setToken, setError, setFirstName } = authSlice.actions;
+export const { setToken, setError, setPerson } = authSlice.actions;
 export const authReducer = authSlice.reducer;
 
 const store = configureStore({

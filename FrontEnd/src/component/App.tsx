@@ -1,17 +1,11 @@
 
-import Features from './Features';
-import Footer from './Footer';
-import NavBar from './NavBar';
-/* import PlayPause from './PlayPause'; */
+import Home from './Home';
 
 function App() {
 
   return (
     <>
-      {/*   <PlayPause /> */}
-      <NavBar />
-      <Features />
-      <Footer />
+      <Home />
     </>
   )
 }
