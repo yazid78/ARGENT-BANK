@@ -5,9 +5,8 @@ import { setToken, setError, setPerson } from './store';
 export const login = (email: string, password: string) => async (dispatch: AppDispatch) => {
     try {
         const response = await axios.post('http://localhost:3001/api/v1/user/login', { email, password });
-        const { body: { token, firstName, lastName } } = response.data;
-        dispatch(setToken(token));
-        dispatch(setPerson({ firstName, lastName }));
+        const { token } = response.data.body;
+        dispatch(setToken(token))
 
         console.log('Token:', token);
     } catch (error) {
@@ -24,7 +23,7 @@ export const getUserProfile = () => async (dispatch: AppDispatch) => {
         });
         const { firstName, lastName } = response.data.body;
         console.log(response.data);
-        dispatch(setPerson({ firstName, lastName })); // Mettre à jour firstName et lastName
+        dispatch(setPerson({ firstName, lastName }));
     } catch (error) {
         console.error('Error fetching user profile:', error);
     }

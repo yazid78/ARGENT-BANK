@@ -13,6 +13,7 @@ const User: React.FC = () => {
     const lastName = useSelector((state: RootState) => state.auth.lastName);
     const [editFirstName, setEditFirstName] = useState<string>('');
     const [editLastName, setEditLastName] = useState<string>('');
+    const [isEditing, setIsEditing] = useState<boolean>(false);
 
     useEffect(() => {
         if (token) {
@@ -32,6 +33,13 @@ const User: React.FC = () => {
         dispatch(updateUserProfile(editFirstName, editLastName));
         setEditFirstName('');
         setEditLastName('');
+        setIsEditing(false);
+    };
+
+    const handleCancelEdit = () => {
+        setEditFirstName('');
+        setEditLastName('');
+        setIsEditing(false);
     };
 
     return (
@@ -63,19 +71,28 @@ const User: React.FC = () => {
                         <br />
                         {firstName ? `${firstName} ${lastName}!` : 'User!'}
                     </h1>
-                    <input
-                        type="text"
-                        value={editFirstName}
-                        onChange={(e) => setEditFirstName(e.target.value)}
-                        placeholder="Edit First Name"
-                    />
-                    <input
-                        type="text"
-                        value={editLastName}
-                        onChange={(e) => setEditLastName(e.target.value)}
-                        placeholder="Edit Last Name"
-                    /> <br /><br />
-                    <button className="edit-button" onClick={handleUpdateName}>Update Name</button>
+                    {isEditing ? (
+                        <div>
+                            <input
+                                className='inputFirstName'
+                                type="text"
+                                value={editFirstName}
+                                onChange={(e) => setEditFirstName(e.target.value)}
+                                placeholder="Edit First Name"
+                            />
+                            <input
+                                className='inputLastName'
+                                type="text"
+                                value={editLastName}
+                                onChange={(e) => setEditLastName(e.target.value)}
+                                placeholder="Edit Last Name"
+                            /> <br /><br />
+                            <button className="save-button" onClick={handleUpdateName}>Save</button>
+                            <button className="cancel-button" onClick={handleCancelEdit}>Cancel</button>
+                        </div>
+                    ) : (
+                        <button className="edit-button" onClick={() => setIsEditing(true)}>Update Name</button>
+                    )}
                 </div>
                 <h2 className="sr-only">Accounts</h2>
                 <section className="account">

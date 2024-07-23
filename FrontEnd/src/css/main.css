@@ -277,7 +277,22 @@ body {
   background-color: #00bc77;
   color: #fff;
 }
-
+.inputFirstName {
+  margin-right: 10px;
+}
+.inputLastName {
+  margin-left: 10px;
+}
+.cancel-button {
+  margin-left: 20px;
+  padding: 5px;
+  width: 65px;
+}
+.save-button {
+  margin-right: 20px;
+  padding: 5px;
+  width: 60px;
+}
 @media (min-width: 720px) {
   .account {
     flex-direction: row;
