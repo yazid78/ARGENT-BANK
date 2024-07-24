@@ -1,6 +1,6 @@
 swagger: "2.0"
 info:
-  title: Bank Argent API documentation
+  title: Bank Argent API Documentation
   description: Contains all available API endpoints in this codebase
   version: "1.0.0"
   termsOfService: "http://swagger.io/terms/"
@@ -8,13 +8,14 @@ host: localhost:3001
 basePath: /api/v1
 schemes:
   - http
+
 paths:
   /user/login:
     post:
       tags:
         - User Module
       summary: Login
-      description: API for Yazid
+      description: API for user login
       parameters:
         - in: body
           name: body
@@ -26,19 +27,20 @@ paths:
         - application/json
       responses:
         "200":
-          description: Login Successfully
+          description: Login Successful
           schema:
             $ref: "#/definitions/LoginResponse"
         "400":
           description: Invalid Fields
         "500":
           description: Internal Server Error
+
   /user/signup:
     post:
       tags:
         - User Module
       summary: Signup
-      description: API for Signup
+      description: API for user registration
       parameters:
         - in: body
           name: body
@@ -50,26 +52,28 @@ paths:
         - application/json
       responses:
         "200":
-          description: Signup Successfully
+          description: Signup Successful
           schema:
             $ref: "#/definitions/ApiResponse"
         "400":
           description: Invalid Fields
         "500":
           description: Internal Server Error
+
   /user/profile:
-    post:
+    get:
       security:
         - Bearer: []
       tags:
         - User Module
-      summary: User Profile API
+      summary: Get User Profile
       description: API for fetching a user profile
       parameters:
         - in: header
           name: Authorization
           description: Attach Bearer JWT token
           required: true
+          type: string
       produces:
         - application/json
       responses:
@@ -81,18 +85,20 @@ paths:
           description: Invalid Fields
         "500":
           description: Internal Server Error
+
     put:
       security:
         - Bearer: []
       tags:
         - User Module
-      summary: User Profile API
+      summary: Update User Profile
       description: API for updating a user profile
       parameters:
         - in: header
           name: Authorization
           description: Attach Bearer JWT token
           required: true
+          type: string
         - in: body
           name: body
           description: Update user profile attributes
@@ -110,56 +116,214 @@ paths:
           description: Invalid Fields
         "500":
           description: Internal Server Error
+
   /transactions:
     get:
       tags:
         - Transaction Module
-      summary: Retourne les transactions du mois en cours
+      summary: Retrieve Transactions
+      description: Retrieve all transactions for the current month, grouped by account
       parameters:
         - name: accountId
           in: query
-          description: ID du compte pour filtrer les transactions
+          description: ID of the account to filter transactions
+          required: false
+          schema:
+            type: string
+        - name: month
+          in: query
+          description: The month to filter transactions
           required: false
           schema:
             type: string
       responses:
         "200":
-          description: Successfull response
+          description: Transactions retrieved successfully
           schema:
             type: array
             items:
               $ref: "#/definitions/Transaction"
+          examples:
+            application/json:
+              - date: "2024-07-01"
+                description: "Purchase at Store A"
+                id: "txn123"
+                amount: 100.00
+                type: "debit"
+                accountId: "acc1"
+              - date: "2024-07-02"
+                description: "Deposit"
+                id: "txn124"
+                amount: 500.00
+                type: "credit"
+                accountId: "acc1"
         "404":
-          description: Aucun compte trouvé
+          description: No transactions found
+          examples:
+            application/json:
+              message: "No transactions found for the specified criteria."
+
+  /user/transactions/{transactionId}:
+    get:
+      tags:
+        - Transaction Module
+      summary: Get Transaction Details
+      description: Retrieve details of a specific transaction
+      parameters:
+        - in: path
+          name: transactionId
+          type: string
+          required: true
+          description: Transaction identifier
+      responses:
+        "200":
+          description: Transaction details
+          schema:
+            $ref: "#/definitions/Transaction"
+          examples:
+            application/json:
+              date: "2024-07-01"
+              description: "Purchase at Store A"
+              id: "txn123"
+              amount: 100.00
+              type: "debit"
+              accountId: "acc1"
+        "404":
+          description: Transaction not found
+          examples:
+            application/json:
+              message: "Transaction not found."
+
+    post:
+      tags:
+        - Transaction Module
+      summary: Add Transaction
+      description: Add a new transaction with optional notes
+      parameters:
+        - in: header
+          name: Authorization
+          type: string
+          description: Attach Bearer JWT token
+          required: true
+        - in: body
+          name: body
+          description: Transaction payload with optional notes
+          required: true
+          schema:
+            $ref: "#/definitions/TransactionWithNotes"
+      responses:
+        "200":
+          description: Transaction added successfully
+          examples:
+            application/json:
+              message: "Transaction added successfully."
+
+    put:
+      tags:
+        - Transaction Module
+      summary: Update Transaction Category
+      description: Modify an existing transaction's category
+      parameters:
+        - in: path
+          name: transactionId
+          type: string
+          required: true
+          description: Transaction identifier
+        - in: body
+          name: body
+          description: Update the category of the transaction
+          required: true
+          schema:
+            $ref: "#/definitions/TransactionCategoryUpdate"
+        - in: header
+          name: Authorization
+          type: string
+          description: Attach Bearer JWT token
+          required: true
+      responses:
+        "200":
+          description: Transaction category updated successfully
+          examples:
+            application/json:
+              message: "Transaction category updated successfully."
+        "400":
+          description: Invalid request (incorrect transaction data)
+          examples:
+            application/json:
+              message: "Invalid request data."
+        "404":
+          description: Transaction not found
+          examples:
+            application/json:
+              message: "Transaction not found."
+
+    delete:
+      tags:
+        - Transaction Module
+      summary: Remove Transaction Information
+      description: Delete specific information (Type, Category, or Notes) from a transaction
+      parameters:
+        - in: path
+          name: transactionId
+          type: string
+          required: true
+          description: Transaction identifier
+        - in: body
+          name: body
+          description: Information to be removed (Type, Category, or Notes)
+          required: true
+          schema:
+            $ref: "#/definitions/TransactionInfoRemoval"
+        - in: header
+          name: Authorization
+          type: string
+          description: Attach Bearer JWT token
+          required: true
+      responses:
+        "200":
+          description: Specific information removed successfully
+          examples:
+            application/json:
+              message: "Information removed successfully."
+        "404":
+          description: Transaction not found
+          examples:
+            application/json:
+              message: "Transaction not found."
 
 securityDefinitions:
   Bearer:
     type: apiKey
     name: Authorization
     in: header
+
 definitions:
   User:
+    type: object
     properties:
       email:
         type: string
-        description: user email
+        description: User email
       password:
         type: string
-        description: user password
+        description: User password
       firstName:
         type: string
-        description: user first name
+        description: User first name
       lastName:
         type: string
-        description: user last name
+        description: User last name
+
   Login:
+    type: object
     properties:
       email:
         type: string
-        description: user email
+        description: User email
       password:
         type: string
-        description: user password
+        description: User password
+
   ApiResponse:
     type: object
     properties:
@@ -174,11 +338,13 @@ definitions:
             type: string
           email:
             type: string
+
   LoginResponse:
     type: object
     properties:
       token:
         type: string
+
   UserProfile:
     type: object
     properties:
@@ -186,15 +352,16 @@ definitions:
         type: string
       lastName:
         type: string
+
   Transaction:
     type: object
     properties:
       date:
         type: string
-        description: date
+        description: Date of the transaction
       description:
         type: string
-        description: description
+        description: Description of the transaction
       id:
         type: string
       amount:
@@ -203,3 +370,42 @@ definitions:
         type: string
       accountId:
         type: string
+
+  TransactionWithNotes:
+    type: object
+    properties:
+      date:
+        type: string
+        description: Date of the transaction
+      description:
+        type: string
+        description: Description of the transaction
+      id:
+        type: string
+      amount:
+        type: number
+      type:
+        type: string
+      accountId:
+        type: string
+      notes:
+        type: string
+        description: Optional notes about the transaction
+
+  TransactionCategoryUpdate:
+    type: object
+    properties:
+      category:
+        type: string
+        description: New category for the transaction
+
+  TransactionInfoRemoval:
+    type: object
+    properties:
+      infoType:
+        type: string
+        enum:
+          - Type
+          - Category
+          - Notes
+        description: The type of information to remove from the transaction
