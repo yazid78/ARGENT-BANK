@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../authActions';
 import { AppDispatch } from '../store';
-import { useNavigate } from 'react-router-dom';
-import { RootState } from '@reduxjs/toolkit/query';
+import { Link, useNavigate } from 'react-router-dom';
+import { RootState } from '@reduxjs/toolkit/query'; import argentBankLogo from '../assets/argentBankLogo.png';
 
 const Login: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -26,6 +26,20 @@ const Login: React.FC = () => {
     return (
         <div>
             <nav className="main-nav">
+                <Link className="main-nav-logo" to="/">
+                    <img
+                        className="main-nav-logo-image"
+                        src={argentBankLogo}
+                        alt="Argent Bank Logo"
+                    />
+                    <h1 className="sr-only">Argent Bank</h1>
+                </Link>
+                <div>
+                    <Link className="main-nav-item" to="/user">
+                        <i className="fa fa-user-circle"></i>
+                        {'Sign In'}
+                    </Link>
+                </div>
             </nav>
             <main className="main bg-dark">
                 <section className="sign-in-content">
@@ -57,6 +71,7 @@ const Login: React.FC = () => {
                 </section>
             </main>
             <footer className="footer">
+                <p className="footer-text">Copyright 2020 Argent Bank</p>
             </footer>
         </div>
     );

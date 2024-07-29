@@ -221,8 +221,8 @@ paths:
     put:
       tags:
         - Transaction Module
-      summary: Update Transaction Category
-      description: Modify an existing transaction's category
+      summary: Update Transaction Category and notes
+      description: Modify an existing transaction's category or notes
       parameters:
         - in: path
           name: transactionId
@@ -251,40 +251,6 @@ paths:
           examples:
             application/json:
               message: "Invalid request data."
-        "404":
-          description: Transaction not found
-          examples:
-            application/json:
-              message: "Transaction not found."
-
-    delete:
-      tags:
-        - Transaction Module
-      summary: Remove Transaction Information
-      description: Delete specific information (Type, Category, or Notes) from a transaction
-      parameters:
-        - in: path
-          name: transactionId
-          type: string
-          required: true
-          description: Transaction identifier
-        - in: body
-          name: body
-          description: Information to be removed (Type, Category, or Notes)
-          required: true
-          schema:
-            $ref: "#/definitions/TransactionInfoRemoval"
-        - in: header
-          name: Authorization
-          type: string
-          description: Attach Bearer JWT token
-          required: true
-      responses:
-        "200":
-          description: Specific information removed successfully
-          examples:
-            application/json:
-              message: "Information removed successfully."
         "404":
           description: Transaction not found
           examples:
@@ -398,6 +364,9 @@ definitions:
       category:
         type: string
         description: New category for the transaction
+      notes:
+        type: string
+        description: New notes for the transaction
 
   TransactionInfoRemoval:
     type: object

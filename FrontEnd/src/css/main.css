@@ -19,6 +19,7 @@ body {
 
 .bg-dark {
   background-color: #12002b;
+  height: 84vh;
 }
 
 .sr-only {
@@ -172,8 +173,9 @@ body {
   background-color: white;
   width: 300px;
   margin: 0 auto;
-  margin-top: 3rem;
   padding: 2rem;
+  position: relative;
+  top: 60px;
 }
 
 .sign-in-icon {
