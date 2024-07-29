@@ -15,7 +15,7 @@ Argent Bank is a banking application allowing users to manage their accounts onl
 
 1. Clone the repository:
 
-   git clone [https://github.com/your-username/argent-bank.git](https://github.com/yazid78/ARGENT-BANK.git)
+   git clone https://github.com/yazid78/ARGENT-BANK.git
 
 2. Navigate to the project folder:
 
